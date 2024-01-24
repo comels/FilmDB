@@ -1,10 +1,6 @@
 import React from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
-
-function formatDate(dateString) {
-  const options = { year: "numeric", month: "short", day: "numeric" };
-  return new Date(dateString).toLocaleDateString("fr-FR", options);
-}
+import { Link } from "react-router-dom";
 
 const Card = ({ film }) => {
   const addStorage = () => {
@@ -31,20 +27,19 @@ const Card = ({ film }) => {
   return (
     <div className="group relative p-4 sm:p-8 text-center">
       <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg group-hover:opacity-75 mb-4">
-        <img
-          src={
-            film.poster_path
-              ? "https://image.tmdb.org/t/p/original/" + film.poster_path
-              : "https://images.pexels.com/photos/3953965/pexels-photo-3953965.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-          }
-          alt={film.title}
-          className="h-full w-full object-contain object-center"
-        />
+        <Link to={`/film/${film.id}`}>
+          <img
+            src={
+              film.poster_path
+                ? "https://image.tmdb.org/t/p/original/" + film.poster_path
+                : "https://images.pexels.com/photos/3953965/pexels-photo-3953965.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            }
+            alt={film.title}
+            className="h-full w-full object-contain object-center"
+          />
+        </Link>
       </div>
       <h3 className="text-sm font-medium text-gray-900">{film.title}</h3>
-      <p className="mt-1 text-sm text-gray-500">
-        Sortie le {formatDate(film.release_date)}
-      </p>
       <div className="mt-3">
         <p className="flex justify-center items-center">
           {film.vote_average % 1 === 0
@@ -56,11 +51,6 @@ const Card = ({ film }) => {
           </span>
         </p>
       </div>
-      <p className="mt-1 text-sm text-gray-900">
-        {film.overview.length > 150
-          ? film.overview.substring(0, 150) + "..."
-          : film.overview}
-      </p>
       {film.genre_ids ? (
         <button
           type="button"
